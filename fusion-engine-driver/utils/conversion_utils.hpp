@@ -16,8 +16,48 @@
 #include "nmea_msgs/msg/sentence.hpp"
 #include "sensor_msgs/msg/imu.hpp"
 
+using namespace point_one::fusion_engine::messages;
+using namespace point_one::fusion_engine::messages::ros;
+
 class ConversionUtils {
   public:
+
+  static const char* messageTypeToString(MessageType aType) {
+    switch (aType) {
+        case MessageType::INVALID:                  return "INVALID";
+        case MessageType::POSE:                     return "POSE";
+        case MessageType::POSE_AUX:                 return "POSE_AUX";
+        case MessageType::CALIBRATION_STATUS:       return "CALIBRATION_STATUS";
+        case MessageType::RELATIVE_ENU_POSITION:    return "RELATIVE_ENU_POSITION";
+        case MessageType::HEADING_MEASUREMENT:      return "HEADING_MEASUREMENT";
+        case MessageType::VEHICLE_SPEED_INPUT:      return "VEHICLE_SPEED_INPUT";
+        case MessageType::ROS_POSE:                 return "ROS_POSE";
+        case MessageType::ROS_GPS_FIX:              return "ROS_GPS_FIX";
+        case MessageType::ROS_IMU:                  return "ROS_IMU";
+        case MessageType::GNSS_SATELLITE:           return "GNSS_SATELLITE";
+        case MessageType::GNSS_INFO:                return "GNSS_INFO";
+        case MessageType::COMMAND_RESPONSE:         return "COMMAND_RESPONSE";
+        case MessageType::MESSAGE_REQUEST:          return "MESSAGE_REQUEST";
+        case MessageType::RESET_REQUEST:            return "RESET_REQUEST";
+        case MessageType::VERSION_INFO:             return "VERSION_INFO";
+        case MessageType::EVENT_NOTIFICATION:       return "EVENT_NOTIFICATION";
+        case MessageType::SHUTDOWN_REQUEST:         return "SHUTDOWN_REQUEST";
+        case MessageType::FAULT_CONTROL:            return "FAULT_CONTROL";
+        case MessageType::SET_CONFIG:               return "SET_CONFIG";
+        case MessageType::GET_CONFIG:               return "GET_CONFIG";
+        case MessageType::SAVE_CONFIG:              return "SAVE_CONFIG";
+        case MessageType::CONFIG_RESPONSE:          return "CONFIG_RESPONSE";
+        case MessageType::IMPORT_DATA:              return "IMPORT_DATA";
+        case MessageType::EXPORT_DATA:              return "EXPORT_DATA";
+        case MessageType::PLATFORM_STORAGE_DATA:    return "PLATFORM_STORAGE_DATA";
+        case MessageType::SET_MESSAGE_RATE:         return "SET_MESSAGE_RATE";
+        case MessageType::GET_MESSAGE_RATE:         return "GET_MESSAGE_RATE";
+        case MessageType::MESSAGE_RATE_RESPONSE:    return "MESSAGE_RATE_RESPONSE";
+        default:                                    return "Unknown MessageType";
+    }
+  }
+
+ 
   /**
    * Helper method to translate atlas GPSFixMessage to ROS standard GPSFix.
    * @param contents Culprit gps data to be translated.

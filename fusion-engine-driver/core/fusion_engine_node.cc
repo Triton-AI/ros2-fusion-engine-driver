@@ -72,7 +72,7 @@ FusionEngineNode::~FusionEngineNode() {
 void FusionEngineNode::receivedFusionEngineMessage(const MessageHeader &header,
                                                    const void *payload) {
   auto time = now();
-
+  RCLCPP_INFO(this->get_logger(), "Receiving Data..");
   if (header.message_type == MessageType::ROS_GPS_FIX) {
     auto &contents = *reinterpret_cast<const GPSFixMessage *>(payload);
     gps_msgs::msg::GPSFix gps_fix = ConversionUtils::toGPSFix(contents);
@@ -149,6 +149,10 @@ void FusionEngineNode::receivedFusionEngineMessage(const MessageHeader &header,
     if (this->get_parameter("debug").as_bool())
       RCLCPP_INFO(this->get_logger(), "Corrections age received (%d)",
                   contents.corrections_age);
+  }
+  else {
+    auto theMessageType = ConversionUtils::messageTypeToString(header.message_type);
+    RCLCPP_INFO(this->get_logger(), theMessageType);
   }
 }
 
