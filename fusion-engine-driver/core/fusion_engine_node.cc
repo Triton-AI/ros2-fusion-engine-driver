@@ -12,7 +12,8 @@ FusionEngineNode::FusionEngineNode()
   this->declare_parameter("tty_port", "/dev/ttyUSB0");
   this->declare_parameter("tcp_port", 12345);
   this->declare_parameter("debug", false);
-  frame_id_ = "";
+  this->declare_parameter("frame_id", "p1_frame");
+  frame_id_ = this->get_parameter("frame_id").as_string();
   timer_ =
       create_wall_timer(std::chrono::milliseconds(1),
                         std::bind(&FusionEngineNode::rosServiceLoop, this));
@@ -94,7 +95,7 @@ void FusionEngineNode::receivedFusionEngineMessage(const MessageHeader &header,
     pos.header.frame_id = frame_id_;
     pos.header.stamp = time;
     pose_publisher_->publish(pos);
-    points.header.frame_id = "/p1_frame";
+    points.header.frame_id = frame_id_;
     points.header.stamp = this->now();
     points.ns = "basic_shapes";
     points.action = visualization_msgs::msg::Marker::ADD;
